@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import img from "../assets/images/login.svg";
 import { useAppDispatch } from "../redux/hook";
 import { loginUser } from "../redux/features/user/userSlice";
+import { toast } from "react-hot-toast";
 
 interface IUser {
   email: string;
@@ -17,12 +19,19 @@ export default function Login() {
     handleSubmit,
   } = useForm<IUser>();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const from = location.state?.from?.pathname || "/";
   const dispatch = useAppDispatch();
 
   const handleLogin: SubmitHandler<IUser> = data => {
-    // console.log("clicked on data", data);
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(loginUser({ email: data.email, password: data.password }));
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    navigate(from, { replace: true });
+    toast.success("user logged in successfully");
   };
 
   return (

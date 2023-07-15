@@ -5,6 +5,7 @@ import { useState } from "react";
 import BookCard from "../components/BookCard";
 import { useGetBooksQuery } from "../redux/api/apiSlice";
 import { IBook } from "../types/globalTypes";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -152,6 +153,11 @@ export default function Home() {
             onChange={handlePublicationYearFilterChange}
           />
         </div>
+        <Link to="add-new-book">
+          <button className="btn mt-8 ml-4 btn-outline btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-lg">
+            Add New
+          </button>
+        </Link>
       </div>
     </div>
   );
