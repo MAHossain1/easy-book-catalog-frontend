@@ -7,7 +7,15 @@ export const api = createApi({
     getBooks: builder.query({
       query: () => "/books",
     }),
+    postBook: builder.mutation({
+      query: book => ({
+        url: "/books",
+        method: "POST",
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        body: book,
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery } = api;
+export const { useGetBooksQuery, usePostBookMutation } = api;

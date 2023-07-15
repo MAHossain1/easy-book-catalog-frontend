@@ -59,11 +59,9 @@ export default function Navbar() {
                 </>
               )}
               <li>
-                <li>
-                  <button className="btn btn-ghost">
-                    <Link to="/">Home</Link>
-                  </button>
-                </li>
+                <button className="btn btn-ghost">
+                  <Link to="/">Home</Link>
+                </button>
               </li>
             </ul>
           </div>
