@@ -2,6 +2,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import img from "../assets/images/login.svg";
+import { useAppDispatch } from "../redux/hook";
+import { createUser } from "../redux/features/user/userSlice";
 
 interface INewUser {
   name: string;
@@ -16,8 +18,11 @@ export default function Signup() {
     handleSubmit,
   } = useForm<INewUser>();
 
-  const handleSignup: SubmitHandler<INewUser> = data => {
-    console.log("clicked on data", data);
+  const dispatch = useAppDispatch();
+
+  const handleSignup: SubmitHandler<INewUser> = (data: INewUser) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    dispatch(createUser({ email: data.email, password: data.password }));
   };
 
   return (

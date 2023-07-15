@@ -2,7 +2,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import img from "../assets/images/login.svg";
-import Navbar from "../layout/Navbar";
+import { useAppDispatch } from "../redux/hook";
+import { loginUser } from "../redux/features/user/userSlice";
 
 interface IUser {
   email: string;
@@ -16,8 +17,12 @@ export default function Login() {
     handleSubmit,
   } = useForm<IUser>();
 
+  const dispatch = useAppDispatch();
+
   const handleLogin: SubmitHandler<IUser> = data => {
-    console.log("clicked on data", data);
+    // console.log("clicked on data", data);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    dispatch(loginUser({ email: data.email, password: data.password }));
   };
 
   return (
