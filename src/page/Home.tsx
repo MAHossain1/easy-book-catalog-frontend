@@ -10,7 +10,10 @@ import Footer from "./Footer";
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data } = useGetBooksQuery(undefined);
+  const { data } = useGetBooksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 60000,
+  });
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<string>("");
