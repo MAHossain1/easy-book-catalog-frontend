@@ -18,6 +18,8 @@ export default function EditBook() {
   const [updateBook, { isLoading: isUpdating, isError: updateError }] =
     useUpdateBookMutation();
 
+  console.log(updateError);
+
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
@@ -56,7 +58,7 @@ export default function EditBook() {
         toast.success("Book updated successfully");
         navigate(`/`);
       })
-      .catch(error => {
+      .catch(() => {
         toast.error("Failed to update book");
         setError("Failed to update book");
       });
