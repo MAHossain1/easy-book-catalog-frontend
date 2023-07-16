@@ -2,15 +2,52 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { useParams } from "react-router-dom";
-import { useSingleBookQuery } from "../redux/api/apiSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useDeleteBookMutation,
+  useSingleBookQuery,
+} from "../redux/api/apiSlice";
 import img from "../assets/images/book.jpg";
 import BookReview from "../components/BookReview";
+import { useAppSelector } from "../redux/hook";
+import { toast } from "react-hot-toast";
 
 export default function BookDetails() {
   const { id } = useParams();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const userEmail = useAppSelector(state => state.user?.user?.email);
+  console.log(userEmail, "from client");
+
+  const navigate = useNavigate();
+
   const { data: book } = useSingleBookQuery(id);
+
+  const [deleteBookMutation, { isLoading, isError }] = useDeleteBookMutation();
+  console.log(isLoading);
+  console.log(isError);
+
+  const handleEditBook = () => {
+    console.log("clicked edit book");
+  };
+
+  const handleDeleteBook = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this book?"
+    );
+
+    if (confirmed) {
+      deleteBookMutation(id)
+        .unwrap()
+        .then(() => {
+          toast.success("Book deleted successfully");
+          navigate("/");
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
 
   return (
     <>
@@ -23,12 +60,19 @@ export default function BookDetails() {
           <p className="text-xl">Author: {book?.author}</p>
           <p className="text-xl">Genre: {book?.genre}</p>
           <p className="text-xl">Publication Year: {book?.publicationDate}</p>
-          {/* <ul className="space-y-1 text-lg">
-            {book?.reviews?.map((review: any) => (
-              <li key={review}>Review: {review?.comment}</li>
-            ))}
-          </ul> */}
-          {/* <Button onClick={() => handleAddProduct(product)}>Add to cart</Button> */}
+          {userEmail === book?.userEmail && ( // Compare userEmail and book.email
+            <>
+              <button
+                className="btn btn-outline btn-primary"
+                onClick={handleEditBook}
+              >
+                Edit Book
+              </button>
+              <button className="btn ml-4 btn-error" onClick={handleDeleteBook}>
+                Delete Book
+              </button>
+            </>
+          )}
         </div>
       </div>
       <BookReview id={id!} />

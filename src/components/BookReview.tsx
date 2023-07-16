@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -15,23 +16,22 @@ export default function BookReview({ id }: IProps) {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  if (!user) {
-    return;
-  }
+  // if (!user) {
+  //   return null;
+  // }
 
   const [postComment, { isError, isLoading, isSuccess }] =
     usePostBookMutation();
 
   const { data } = useGetCommentQuery(id, {
     refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
   });
 
   console.log(isLoading);
   console.log(isError);
   console.log(isSuccess);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const options: {
@@ -46,10 +46,17 @@ export default function BookReview({ id }: IProps) {
 
     console.log(options);
 
-    postComment(options).catch(error => {
-      // Handle the error here
+    try {
+      await postComment(options);
+    } catch (error) {
       console.log(error);
-    });
+    }
+
+    //  postComment(options).catch(error => {
+    //   // Handle the error here
+    //   console.log(error);
+    // }
+    // );
     setInputValue("");
   };
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -58,21 +65,24 @@ export default function BookReview({ id }: IProps) {
 
   return (
     <div className="max-w-7xl mx-auto my-10">
-      <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
-        <textarea
-          className="min-h-[30px] textarea textarea-bordered textarea-xs w-full max-w-xs"
-          onChange={handleChange}
-          value={inputValue}
-          placeholder="Enter your review"
-        />
-        <button type="submit" className="btn btn-accent rounded-md p-2 ">
-          Submit Review
-        </button>
-      </form>
+      {user?.email && (
+        <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
+          <textarea
+            className="min-h-[30px] textarea textarea-bordered textarea-xs w-full max-w-xs"
+            onChange={handleChange}
+            value={inputValue}
+            placeholder="Enter your review"
+          />
+
+          <button type="submit" className="btn btn-accent rounded-md p-2 ">
+            Submit Review
+          </button>
+        </form>
+      )}
       <div className="mt-10">
         {data?.comments?.map((comment: string, index: number) => (
           <div key={index} className="mb-5">
-            <p>{comment}</p>
+            <p>Review: {comment}</p>
           </div>
         ))}
       </div>

@@ -29,6 +29,12 @@ export const api = createApi({
         body: book,
       }),
     }),
+    deleteBook: builder.mutation({
+      query: id => ({
+        url: `/book/${id}`,
+        method: "DELETE",
+      }),
+    }),
     getComment: builder.query({
       query: id => `/comment/${id}`,
       providesTags: ["comments"],
@@ -42,4 +48,5 @@ export const {
   usePostBookMutation,
   usePostCommentMutation,
   useGetCommentQuery,
+  useDeleteBookMutation,
 } = api;

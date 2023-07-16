@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { usePostBookMutation } from "../redux/api/apiSlice";
 import { toast } from "react-hot-toast";
+import { useAppSelector } from "../redux/hook";
 
 export default function AddNewBook() {
   const [title, setTitle] = useState("");
@@ -14,6 +15,9 @@ export default function AddNewBook() {
   console.log(isError);
   console.log(isLoading);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const userEmail = useAppSelector(state => state.user.user.email);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -24,7 +28,16 @@ export default function AddNewBook() {
     }
 
     // Make API call to add the new book
-    const bookData = { title, author, genre, publicationDate };
+    const bookData = {
+      title,
+      author,
+      genre,
+      publicationDate,
+      userEmail: userEmail || "",
+    };
+
+    console.log(bookData);
+
     postBook(bookData)
       .unwrap()
       .then(() => {
