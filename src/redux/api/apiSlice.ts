@@ -37,6 +37,7 @@ export const api = createApi({
         method: "POST",
         body: book,
       }),
+      invalidatesTags: ["comments"],
     }),
     deleteBook: builder.mutation({
       query: id => ({
