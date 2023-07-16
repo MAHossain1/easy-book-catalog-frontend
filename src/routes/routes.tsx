@@ -5,7 +5,8 @@ import NotFound from "../page/NotFound";
 import Login from "../page/Login";
 import Signup from "../page/Signup";
 import AddNewBook from "../page/AddNewBook";
-import PrivateRoute from "./privateRoute";
+import PrivateRoute from "./PrivateRoute";
+import BookDetails from "../page/BookDetails";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/book-details/:id",
+        element: <BookDetails />,
       },
       {
         path: "/add-new-book",

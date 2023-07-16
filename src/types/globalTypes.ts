@@ -4,10 +4,5 @@ export interface IBook {
   author: string;
   genre: string;
   publicationDate: string;
-  reviews: Review[];
-}
-
-interface Review {
-  rating: number;
-  comment: string;
+  comments: [];
 }

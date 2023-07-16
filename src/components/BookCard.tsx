@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IBook } from "../types/globalTypes";
 
 interface IProps {
@@ -23,7 +24,7 @@ export default function BookCard({ book }: IProps) {
           data-te-ripple-init
           data-te-ripple-color="light"
         >
-          Add New
+          <Link to={`/book-details/${book._id}`}>View Details</Link>
         </button>
       </div>
       <div className="border-t-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">

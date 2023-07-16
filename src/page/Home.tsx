@@ -43,9 +43,9 @@ export default function Home() {
         book.publicationDate === selectedPublicationYear;
 
       const searchMatch =
-        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.genre.toLowerCase().includes(searchQuery.toLowerCase());
+        book.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.author?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.genre?.toLowerCase().includes(searchQuery.toLowerCase());
 
       return genreMatch && publicationYearMatch && searchMatch;
     })
