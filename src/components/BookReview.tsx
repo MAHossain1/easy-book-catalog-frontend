@@ -34,15 +34,7 @@ export default function BookReview({ id }: IProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const options: {
-      id: string;
-      data: {
-        comment: string;
-      };
-    } = {
-      id: id,
-      data: { comment: inputValue },
-    };
+    const options = { id: id, data: { comment: inputValue } };
 
     console.log(options);
 
@@ -52,11 +44,6 @@ export default function BookReview({ id }: IProps) {
       console.log(error);
     }
 
-    //  postComment(options).catch(error => {
-    //   // Handle the error here
-    //   console.log(error);
-    // }
-    // );
     setInputValue("");
   };
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {

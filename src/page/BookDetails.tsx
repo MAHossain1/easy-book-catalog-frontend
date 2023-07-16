@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteBookMutation,
   useSingleBookQuery,
@@ -26,10 +27,6 @@ export default function BookDetails() {
   const [deleteBookMutation, { isLoading, isError }] = useDeleteBookMutation();
   console.log(isLoading);
   console.log(isError);
-
-  const handleEditBook = () => {
-    console.log("clicked edit book");
-  };
 
   const handleDeleteBook = () => {
     const confirmed = window.confirm(
@@ -62,12 +59,12 @@ export default function BookDetails() {
           <p className="text-xl">Publication Year: {book?.publicationDate}</p>
           {userEmail === book?.userEmail && ( // Compare userEmail and book.email
             <>
-              <button
+              <Link
+                to={`/edit-book/${id}`}
                 className="btn btn-outline btn-primary"
-                onClick={handleEditBook}
               >
                 Edit Book
-              </button>
+              </Link>
               <button className="btn ml-4 btn-error" onClick={handleDeleteBook}>
                 Delete Book
               </button>

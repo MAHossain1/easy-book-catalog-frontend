@@ -6,21 +6,27 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
-  tagTypes: ["comments"],
+
   endpoints: builder => ({
     getBooks: builder.query({
       query: () => "/books",
+    }),
+    updateBook: builder.mutation({
+      query: ({ id, book }) => ({
+        url: `/edit-book/${id}`,
+        method: "PATCH",
+        body: book,
+      }),
     }),
     singleBook: builder.query({
       query: id => `/book/${id}`,
     }),
     postComment: builder.mutation({
-      query: ({ id, book }) => ({
+      query: ({ id, data }) => ({
         url: `/comment/${id}`,
-        method: "PATCH",
-        body: { comment: book.comment },
+        method: "POST",
+        body: data,
       }),
-      invalidatesTags: ["comments"],
     }),
     postBook: builder.mutation({
       query: book => ({
@@ -37,16 +43,16 @@ export const api = createApi({
     }),
     getComment: builder.query({
       query: id => `/comment/${id}`,
-      providesTags: ["comments"],
     }),
   }),
 });
 
 export const {
+  usePostCommentMutation,
   useGetBooksQuery,
   useSingleBookQuery,
   usePostBookMutation,
-  usePostCommentMutation,
-  useGetCommentQuery,
   useDeleteBookMutation,
+  useUpdateBookMutation,
+  useGetCommentQuery,
 } = api;
